@@ -6,7 +6,10 @@
 
 using namespace std;
 
+struct HtmlBuilder;
+
 struct HtmlElement {
+    friend class HtmlBuilder;
     string name, text;
     vector<HtmlElement> elements;
     const size_t indent_size = 2;
@@ -39,7 +42,7 @@ struct HtmlBuilder {
     }
 
     static HtmlBuilder build(string root_name) {
-        return HtmlBuilder{root_name};
+        return {root_name};
     }
 
     // reference API is better than pointer API
