@@ -4,5 +4,8 @@ set (PROJECT_NAME design_patterns)
 project(${PROJECT_NAME} C CXX)
 
 set (ROOT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/)
-set (C_CSS_FLAGS "${C_CXX_FLAGS} -g")
+set (C_CXX_FLAGS "${C_CXX_FLAGS} -g")
+set (CMAKE_CXX_STANDARD 11)
+
 add_subdirectory(builder)
+add_subdirectory(factories)
