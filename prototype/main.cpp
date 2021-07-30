@@ -9,6 +9,10 @@ struct Address {
     Address(const string &street, const string &city, int suite)
         : street(street), city(city), suite(suite) {}
 
+    Address(const Address& address) 
+    : street{address.street}, city{address.city}, suite{address.suite}
+    {}
+
     friend ostream &operator<<(ostream &os, const Address &address) {
         os << "streat: " << address.street << ", city: " << address.city 
             << ", suite: " << address.suite;
@@ -30,7 +34,7 @@ struct Contact {
 
     Contact (const Contact& other) 
         : name {other.name}
-        , address { new Address{ other.address->street, other.address->city, other.address->suite } }
+        , address { new Address{*(other.address)} }
     {}
 
     friend ostream &operator<<(ostream &os, const Contact &contact) {
@@ -42,7 +46,7 @@ struct Contact {
 int main() {
     Contact john{"John Doe", new Address{"123 East Dr", "London", 123}};
     // Contact jane{"Jane Smith", Address{"123 East Dr", "London", 103}};
-    Contact jane {john}; // shallow copy
+    Contact jane {john}; // deep copy
     jane.name = "Jane Smith";
     jane.address->suite = 103;
 
