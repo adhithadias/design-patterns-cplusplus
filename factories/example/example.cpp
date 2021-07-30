@@ -26,7 +26,8 @@ open-close principle intact because we made everything public in Point class
 Now since PointFactory is inside the Point class, the private members of the Point class
 are accessible from inside the PointFactory class
 
-5) We can even make the PointFactory class private
+5) We can even make the PointFactory class private -- this approach is called Inner Factory
+and add a public member to the class PointFactory
 */
 class Point {
 
@@ -51,6 +52,7 @@ public:
         return os;
     }
 
+private:
     struct PointFactory {
         PointFactory() {}
         static Point NewCartesian(float x, float y) {
@@ -62,11 +64,14 @@ public:
         }
     };
 
+public:
+    static PointFactory Factory;
+
 };
 
 int main() {
 
-    auto p = Point::PointFactory::NewPolar(5, M_PI_4);
+    auto p = Point::Factory.NewCartesian(2, 4);
 
     cout << p << endl;
 
