@@ -1,11 +1,18 @@
 #include <iostream>
 #include <memory>
-
 using namespace std;
+
+#include <boost/serialization/serialization.hpp>
+#include <boost/archive/text_iarchive.hpp>
+#include <boost/archive/text_oarchive.hpp>
+using namespace boost;
+
 
 struct Address {
     string street, city;
     int suite;
+
+    Address() {}
 
     Address(const string &street, const string &city, int suite)
         : street(street), city(city), suite(suite) {}
@@ -19,6 +26,16 @@ struct Address {
             << ", suite: " << address.suite;
         return os;
     }
+
+private:
+    friend class serialization::access;
+
+    template <class archive>
+    void serialize(archive& ar, const unsigned version) {
+        ar & street;
+        ar & city;
+        ar & suite;
+    }
 };
 
 // if we make the Address a pointer, then main method cannot simply change the address values
@@ -29,6 +46,8 @@ struct Address {
 struct Contact {
     string name;
     Address* address;
+
+    Contact() {}
 
     Contact (const string &name, Address *address)
         : name(name), address(address) {}
@@ -43,6 +62,15 @@ struct Contact {
     friend ostream &operator<<(ostream &os, const Contact &contact) {
         os << "name: " << contact.name << ", address: " << *contact.address;
         return os;
+    }
+
+private:
+    friend class serialization::access;
+
+    template <class archive>
+    void serialize(archive& ar, const unsigned version) {
+        ar & name;
+        ar & address;
     }
 };
 
@@ -73,6 +101,30 @@ int main() {
 
     auto adhitha = EmployeeFactory::new_main_office_employee("Adhitha", 100);
     cout << *adhitha << endl;
+
+
+    auto clone = [](const Contact& c) {
+        ostringstream oss;
+        archive::text_oarchive oa(oss);
+        oa << c;
+        string s = oss.str();
+        cout << s << endl;
+
+        istringstream iss(s);
+        archive::text_iarchive ia(iss);
+        Contact result;
+        ia >> result;
+        return result;
+    };
+    auto dias = EmployeeFactory::new_main_office_employee("dias", 200);
+    auto weerasiri = clone(*dias);
+    weerasiri.name = "weerasiri";
+    weerasiri.address->suite = 500;
+
+    cout << *dias << endl;
+    cout << weerasiri << endl;
+    cout << &*dias << " " << &dias->address << endl;
+    cout << &weerasiri << " " << weerasiri.address << endl;
 
     return 0;
 }

@@ -5,7 +5,7 @@ project(${PROJECT_NAME} C CXX)
 
 set (ROOT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/)
 set (C_CXX_FLAGS "${C_CXX_FLAGS} -g")
-set (CMAKE_CXX_STANDARD 11)
+set (CMAKE_CXX_STANDARD 14)
 
 add_subdirectory(builder)
 add_subdirectory(factories)

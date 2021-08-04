@@ -1,6 +1,6 @@
 CC=g++
-CFLAGS=-I./
-LIBS=
+CFLAGS=-I./ -I/usr/include/boost/
+LIBS=-L/usr/lib/x86_64-linux-gnu/ -lboost_serialization
 _OBJ = main.o
 
 # $@ left item from :
