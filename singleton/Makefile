@@ -1,6 +1,8 @@
 CC=g++
-CFLAGS=-I./ -I/usr/include/boost/
-LIBS=-L/usr/lib/x86_64-linux-gnu/ -lboost_serialization
+CFLAGS=-I./ -I/usr/include/boost/ -I/usr/include/gtest/
+# have to have pthread to compile gtest
+# not sure if I have to include -lgtest_main also
+LIBS=-L/usr/lib/x86_64-linux-gnu/ -L/home/min/a/kadhitha/software/googletest/build/lib/ -lboost_serialization -lgtest -lpthread
 _OBJ = main.o
 
 # $@ left item from :
