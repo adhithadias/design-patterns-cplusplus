@@ -13,4 +13,10 @@ Prototype design pattern is all about object copying
 
 A partially or fully initialized object that you copy (clone) and make use of it. You make a copy and then you subsequently use if for your own benifit.
 
+# Summary
 
+1. To implement a prototype, partially construct an object and store it somewhere
+2. Clone the prototype
+    * Implement your own deep copy functionlality; or
+    * Serialize and desieialize
+3. Customize the resulting object
