@@ -10,7 +10,12 @@ using namespace boost;
 
 // only makes sense to have one instance of the database
 
-class SingletonDatabase {
+class Database {
+public:
+    virtual int get_population(const string& name) = 0;
+};
+
+class SingletonDatabase : public Database {
     SingletonDatabase() {
         cout << "Initializing the database\n";
         ifstream ifs("/home/min/a/kadhitha/workspace/design_patterns/singleton/database/capitals.txt");
@@ -50,10 +55,41 @@ public:
     }
 };
 
+class DummyDatabase : public Database {
+    map<string, int> capitals;
+public:
+    DummyDatabase() {
+        capitals["alpha"] = 1;
+        capitals["beta"] = 2;
+        capitals["gamma"] = 3;
+    }
+    int get_population(const string& name) override {
+
+        return capitals[name];
+    }
+};
+
+struct ConfigureRecordFinder {
+    Database& db;
+
+    ConfigureRecordFinder(Database &db) : db(db) {}
+
+    int total_population(vector<string> names) {
+        int result{0};
+        for (auto& name : names) {
+            // SingletonDatabse::get() is dependant
+            result += db.get_population(name);
+        }
+        return result;
+    }
+};
+
+
 struct SingletonRecordFinder {
     int total_population(vector<string> names) {
         int result{0};
         for (auto& name : names) {
+            // SingletonDatabse::get() is dependant
             result += SingletonDatabase::get().get_population(name);
         }
         return result;
@@ -70,6 +106,12 @@ TEST(RecordFinderTests, SingletonTotalPopulationTest) {
     vector<string> names{"Seoul", "Mexico City"};
     int tp = rf.total_population(names);
     EXPECT_EQ(17500000+17400000, tp);
+}
+
+TEST(RecordFinderTests, DependantTotalPopulatonTest) {
+    DummyDatabase db;
+    ConfigureRecordFinder rf{db};
+    EXPECT_EQ(4, rf.total_population(vector<string>{"alpha", "gamma"}));
 }
 
 int main(int argc, char* argv[]) {
