@@ -1,0 +1,19 @@
+@startuml bridge
+scale 1
+
+class ThreadScheduler {}
+class PreemptiveThreadScheduler {}
+class CooperativeThreadScedular {}
+interface IPlatformSchedular {}
+class UnixSchedular {}
+class WindowsSchedular {}
+
+IPlatformSchedular <-- ThreadScheduler
+
+ThreadScheduler <|-- PreemptiveThreadScheduler
+ThreadScheduler <|-- CooperativeThreadScedular
+
+IPlatformSchedular <|-- UnixSchedular
+IPlatformSchedular <|-- WindowsSchedular
+
+@enduml

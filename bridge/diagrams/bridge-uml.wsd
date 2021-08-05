@@ -1,0 +1,21 @@
+@startuml bridge
+scale 1
+
+class ThreadScheduler {}
+class PreemptiveThreadScheduler {}
+class CooperativeThreadScedular {}
+class WindowsPTS {}
+class UnixPTS {}
+class WindowsCTS {}
+class UnixCTS {}
+
+ThreadScheduler <|-- PreemptiveThreadScheduler
+ThreadScheduler <|-- CooperativeThreadScedular
+
+PreemptiveThreadScheduler <|-- WindowsPTS
+PreemptiveThreadScheduler <|-- UnixPTS
+
+CooperativeThreadScedular <|-- WindowsCTS
+CooperativeThreadScedular <|-- UnixCTS
+
+@enduml
