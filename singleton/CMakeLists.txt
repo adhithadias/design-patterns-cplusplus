@@ -18,3 +18,5 @@ include(GoogleTest)
 gtest_discover_tests(singleton)
 
 add_subdirectory(dependency_injection)
+add_subdirectory(monostate)
+add_subdirectory(multiton)
