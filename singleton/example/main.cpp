@@ -18,7 +18,7 @@ public:
 class SingletonDatabase : public Database {
     SingletonDatabase() {
         cout << "Initializing the database\n";
-        ifstream ifs("/home/min/a/kadhitha/workspace/design_patterns/singleton/database/capitals.txt");
+        ifstream ifs("/home/min/a/kadhitha/workspace/design_patterns/singleton/example/database/capitals.txt");
 
         if(ifs.is_open()) {
             string s, s2;
