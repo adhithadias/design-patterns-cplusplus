@@ -20,7 +20,16 @@ When discussing which patterns to drop, we found that we still love them all. (N
 
 Singleton is just a component which is instantiated only once.
 
+# Summary
 
+* Making a 'safe' singleton is easy
+    - Hide or delete the type's constructor, copy constructor and copy assignment operators
+    - Create a static method that returns a reference to a static member
+    - Guaranteed to be thread-safe dince C++11
+* Types with 'hard' depedencies on singletons are difficult to test
+    - Cannot decouple the singleton and supply fake object
+* Instread of directly using a singleton, consider depending on an abstraction (e.g. an interface)
+* Consider defining a singleton lifetime in DI container
 
 
 
