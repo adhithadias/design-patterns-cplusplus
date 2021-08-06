@@ -1,1 +1,2 @@
 add_subdirectory(shrink_wrapped_pimpl)
+add_subdirectory(bridge)
