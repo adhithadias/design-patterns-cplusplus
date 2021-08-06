@@ -25,3 +25,9 @@ Less inheritance and aggregation in this way of handling bridging
 
 ## Bridge
 A mechanism that decouples an interface (hierarchy) from an implementation (hierarchy)
+
+
+# Summary
+* Decouple abstraction from implementation
+* Both can exist as hierarchies
+* Can think of as a stronger form of encapsulation
