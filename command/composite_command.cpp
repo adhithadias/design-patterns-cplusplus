@@ -92,9 +92,27 @@ struct CompositBankAccountCommand : vector<BankAccountCommand>, Command {
 
 };
 
-struct MoneyTransferCommand : CompositBankAccountCommand {
+struct DependentCompositeCommand : CompositBankAccountCommand {
+    DependentCompositeCommand(const initializer_list<BankAccountCommand> &items)
+        : CompositBankAccountCommand(items) {}
+
+    void call() override {
+        bool ok = true;
+        for (auto& cmd : *this) {
+            if (ok) {
+                cmd.call();
+                ok = cmd.succeeded;
+            }
+            else {
+                cmd.succeeded = false;
+            }
+        }
+    }
+};
+
+struct MoneyTransferCommand : DependentCompositeCommand {
     MoneyTransferCommand(BankAccount &from, BankAccount &to, int amount) 
-        : CompositBankAccountCommand( 
+        : DependentCompositeCommand( 
             {
                 BankAccountCommand(from, BankAccountCommand::withdraw, amount),
                 BankAccountCommand(to, BankAccountCommand::deposit, amount)
@@ -106,7 +124,7 @@ int main() {
     BankAccount ba1, ba2;
     ba1.deposit(100);
 
-    MoneyTransferCommand cmd{ba1, ba2, 100};
+    MoneyTransferCommand cmd{ba1, ba2, 5000}; // with DependentBankAccountComand it works
 
     cmd.call();
 
