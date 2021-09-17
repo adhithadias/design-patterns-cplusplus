@@ -28,3 +28,7 @@ Gang of does not mention queries. They just give the command design pattern.
 
 # Summary
 
+* Encapsulate all the details of an operation in a separate object
+* Define instruction for applying the command (wither in the command itself, or elsewhere)
+* Optionally define instructions for undoing the command
+* Can create composite commands (a.k.a. macros)
