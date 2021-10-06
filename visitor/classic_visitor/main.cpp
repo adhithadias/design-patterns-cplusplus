@@ -143,9 +143,15 @@ int main(int ac, char* av[])
     // ExpressionPrinter ep;
     // ep.print(e);
     // std::cout << ep.str() << std::endl;
-    auto ep = new ExpressionPrinter();
-    e->accept(ep);
-    std::cout << ep->str() << std::endl;
+
+
+    // auto ep = new ExpressionPrinter();
+    // e->accept(ep);
+    // std::cout << ep->str() << std::endl;
+
+    ExpressionPrinter ep;
+    ep.visit(e);
+    std::cout << ep.str() << std::endl;
 
     delete e;
 
@@ -157,17 +163,19 @@ void ExpressionPrinter::visit(DoubleExpression *de) {
 }
 
 void ExpressionPrinter::visit(AdditionExpression *ae) {
-    oss << "(";
+    bool need_braces = dynamic_cast<AdditionExpression*>(ae->right);
+    if (need_braces) oss << "(";
     ae->left->accept(this);
     oss << "+";
     ae->right->accept(this);
-    oss << ")";
+    if (need_braces) oss << ")";
 }
 
 void ExpressionPrinter::visit(SubtractionExpression *se) {
-    oss << "(";
+    bool need_braces = dynamic_cast<SubtractionExpression*>(se->right);
+    if (need_braces) oss << "(";
     se->left->accept(this);
     oss << "-";
     se->right->accept(this);
-    oss << ")";
+    if (need_braces) oss << ")";
 }
