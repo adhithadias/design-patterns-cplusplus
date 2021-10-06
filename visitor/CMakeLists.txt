@@ -1,0 +1,6 @@
+add_subdirectory(intrusive_visitor)
+add_subdirectory(reflective_visitor)
+add_subdirectory(classic_visitor)
+add_subdirectory(acyclic_visitor)
+add_subdirectory(multimethods)
+add_subdirectory(variant_and_std_visit)
