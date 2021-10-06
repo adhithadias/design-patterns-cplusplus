@@ -1,13 +1,22 @@
+#include <iostream>
+#include <ostream>
+#include <sstream>
 struct Expression 
 {
     virtual ~Expression() = default;
+    virtual void print(std::ostringstream& oss) = 0;
 };
 
-struct DoubleExpressoin : Expression 
+struct DoubleExpression : Expression 
 {
     double value;
 
-    DoubleExpressoin(double value) : value(value) {}
+    DoubleExpression(double value) : value(value) {}
+
+    void print(std::ostringstream& oss) override 
+    {
+        oss << value;
+    }
 };
 
 struct AdditionExpression : Expression 
@@ -22,11 +31,34 @@ struct AdditionExpression : Expression
         delete left;
         delete right;
     }
+
+    void print(std::ostringstream& oss) override
+    {
+        oss << "(";
+        left->print(oss);
+        oss << "+";
+        right->print(oss);
+        oss << ")";
+    }
 };
 
 
 int main(int ac, char* av[]) 
 {
+    auto e = new AdditionExpression{
+        new DoubleExpression{1},
+        new AdditionExpression{
+            new DoubleExpression{2},
+            new DoubleExpression{3}
+        }
+    };
+
+    // (1+(2+3))
+    std::ostringstream oss;
+    e->print(oss);
+    std::cout << oss.str() << std::endl;
+
+    delete e;
 
     return 0;
 }
